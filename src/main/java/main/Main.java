@@ -21,8 +21,8 @@ import static spark.debug.DebugScreen.enableDebugScreen;
 
 //TODO: Teminar de arreglar el main
 public class Main {
-
     public static int pa = 0;
+    public static List<Chat> usuariosConectados = new ArrayList<>();
 
     public static void main(String [] args)
     {
@@ -32,6 +32,9 @@ public class Main {
         Configuration configuration = new Configuration();
         configuration.setClassForTemplateLoading(Main.class, "/templates");
         FreeMarkerEngine freeMarkerEngine = new FreeMarkerEngine( configuration );
+
+        webSocket("/mensajeServidor", WebSocketClass.class);
+        init();
 
         //Administradores
         //UsuarioQueries.getInstancia().crear(new Usuario("f", "Francis Cáceres", "1234", true));
@@ -527,6 +530,29 @@ public class Main {
             return null;
         });
 
+        before("/chatRoom",(request,res) ->{
+            Session sesion = request.session(true);
+            try{
+                System.out.println(sesion.attribute("sesion").toString());
+            }catch (Exception e){
+                halt(403,"No puedes pasar acá");
+            }
+//            if(!(sesion.attribute("currentUser")))
+        });
+
+        get("/chatRoom", (request, response) -> {
+            Map<String, Object> attributes = new HashMap<>();
+            Session sesion = request.session(true);
+            attributes.put("chats", usuariosConectados);
+
+            attributes.put("sesion",(sesion.attribute("sesion")==null)?"false":sesion.attribute("sesion").toString());
+
+            attributes.put("user",(sesion.attribute("currentUser")==null)?new Usuario("","","",false):((Usuario) sesion.attribute("currentUser")));
+
+
+            return new ModelAndView(attributes, "chat.ftl");
+        }, freeMarkerEngine);
+
     }
 
     public static List<Articulo> paginacion(List<Articulo> la, int pagina)
@@ -552,5 +578,41 @@ public class Main {
         }
     }
 
+    /*public static void enviarMensajeAClientesConectados(String mensaje, String color){
+        System.out.println(usuariosConectados.size());
+        for(org.eclipse.jetty.websocket.api.Session sesionConectada : usuariosConectados){
+            try {
+                System.out.println(sesionConectada.getRemoteAddress().toString());
+                sesionConectada.getRemote().sendString((mensaje+" El jefe hablando"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }*/
 
+    public static void enviarMensajeAlCliente(String cliente,String mensaje){
+        System.out.println(usuariosConectados.size());
+
+        for(Chat nom : usuariosConectados){
+            if(nom.getNombre().equals(cliente)){
+                try{
+                    nom.getSession().getRemote().sendString(mensaje);
+                    break;
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        /*for(org.eclipse.jetty.websocket.api.Session sesionConectada : usuariosConectados){
+            try {
+                if(sesionConectada == sesi)
+                {
+                    System.out.println(mensaje);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }*/
+    }
 }
