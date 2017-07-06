@@ -24,6 +24,10 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+    <script src="js/form-validation.js"></script>
+
 </head>
 
 <body>
@@ -61,7 +65,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-offset-3 col-md-5">
-                <form method="post" action="/registro">
+                <form id="userForm" method="post" action="/registro">
                     <div class="form-login">
                         <h4>Registro</h4>
                         <input type="text" id="userName" name="user" class="form-control input-sm chat-input" placeholder="Usuario" />
@@ -106,8 +110,7 @@
 </div>
 <!-- /.container -->
 
-<!-- jQuery -->
-<script src="js/jquery.js"></script>
+
 
 <!-- Bootstrap Core JavaScript -->
 <script src="js/bootstrap.min.js"></script>

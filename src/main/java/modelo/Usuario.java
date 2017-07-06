@@ -5,6 +5,8 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
+
 @Data
 @Entity
 @NamedQueries({@NamedQuery(name = "Usuario.findAllByUsername", query = "SELECT a FROM Usuario a WHERE a.username like :username")})
@@ -29,6 +31,8 @@ public class Usuario implements Serializable{
     private List<LikeA> likesA;
     @OneToMany(mappedBy = "usuario",fetch = FetchType.EAGER,orphanRemoval = true,cascade = CascadeType.REMOVE)
     private List<LikeC> likesC;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Usuario> followers;
 
     public Usuario(){
 
