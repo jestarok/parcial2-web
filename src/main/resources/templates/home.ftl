@@ -130,7 +130,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/" style="font-size: 20px">Blog.EF</a>
+            <a class="navbar-brand" href="/" style="font-size: 20px">Insta</a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -139,16 +139,13 @@
                     <a href="#" data-toggle="modal" data-target="#login-modal"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Articulo</a>
                 </li>
                 <li class = "chatss">
-                    <div class="btn-nav"><a href="/chatRoom" class="btn btn-primary navbar-btn" id="chatt">chat</a></div>
+                    <div style="padding-right: 5%" class="btn-nav"><a href="/perfil" class="btn btn-primary navbar-btn" id="chatt">Perfil</a></div>
                 </li>
                 <li class="login">
                     <div class="btn-nav"><a class="btn btn-default navbar-btn " id="button_login"  href="/login"> Entrar</a></div>
                 </li>
                 <li class="logout">
                     <div class="btn-nav"><a class="btn btn-danger navbar-btn " id="button_logout" href="/clear"> Salir</a></div>
-                </li>
-                <li>
-                    <div class="btn-nav"><a class="btn btn-default navbar-btn" id="administrar" href="/administrarUsuarios">Administrar</a> </div>
                 </li>
             </ul>
 
@@ -241,7 +238,7 @@
         <div class="col-md-8">
 
             <h1 class="page-header">
-                Articulos
+                Timeline
             </h1>
             <#if EtiqNotFound??>
                 <h3>Etiqueta no encontrada</h3>
@@ -251,14 +248,14 @@
                 <!-- First Blog Post -->
               <#list articulos as articulo>
                     <h2>
-                        <a href="/articulos?id=${articulo.getId()}">${articulo.getTitulo()}</a>
+                        <#--<a href="/articulos?id=${articulo.getId()}">${articulo.getTitulo()}</a>-->
                     </h2>
                     <p class="lead">
                         by <i>${articulo.getAutor().getUsername()}</i>
                     </p>
                     <p><span class="glyphicon glyphicon-time"></span> Publicado en ${articulo.getFecha()}</p>
                     <hr>
-                    <p class="parrafoEsp">${articulo.getCuerpo()}</p>
+                    <#--<p class="parrafoEsp">${articulo.getCuerpo()}</p>-->
                     <a class="btn btn-primary" href="/articulos?id=${articulo.getId()}">Leer más <span class="glyphicon glyphicon-chevron-right"></span></a>
                     <hr>
                 </#list>
@@ -268,7 +265,7 @@
     <!-- /.row -->
 
         <!-- Busqueda -->
-        <div class="col-md-4">
+        <#--<div class="col-md-4">
         <form method = "post" action = "/">
             <div class="well">
                 <h4>Blog Search</h4>
@@ -280,7 +277,7 @@
                         </button>
                         </span>
                 </div>
-                <!-- /.input-group -->
+                <!-- /.input-group &ndash;&gt;
             </div>
         </form>
 
@@ -297,7 +294,7 @@
                 </div>
             </div>
 
-        </div>
+        </div>-->
         <!-- Fin busqueda -->
 
 

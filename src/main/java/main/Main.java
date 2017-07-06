@@ -457,6 +457,12 @@ public class Main {
             return new ModelAndView(attributes, "registrar.ftl");
         }, freeMarkerEngine);
 
+        get("/perfil", (request, response) -> {
+            Map<String, Object> attributes = new HashMap<>();
+
+            return new ModelAndView(attributes, "perfil.ftl");
+        }, freeMarkerEngine);
+
         post("/registro", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
             String foto = request.queryParams("foto");

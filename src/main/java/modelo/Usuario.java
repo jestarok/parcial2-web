@@ -32,7 +32,7 @@ public class Usuario implements Serializable{
     @OneToMany(mappedBy = "usuario",fetch = FetchType.EAGER,orphanRemoval = true,cascade = CascadeType.REMOVE)
     private List<LikeC> likesC;
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Usuario> followers;
+    private Set<Usuario> follow;
 
     public Usuario(){
 
