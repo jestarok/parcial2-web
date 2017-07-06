@@ -16,8 +16,9 @@ public class Articulo implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column(columnDefinition = "TEXT")
     private String foto;
-//    @Column(length = 8000)
+//        @Column(length = 1024*5)
     private String descripcion;
     @ManyToOne
     private Usuario autor;
