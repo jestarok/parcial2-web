@@ -41,8 +41,7 @@
 
             if(variable==="true"){
 
-                if ( ("${user.getUsername()}" === "${articulo.getAutor().getUsername()}") ||
-                        ("${user.isAdministrador()?c}" === "true") )
+                if ( ("${user.getUsername()}" === "${articulo.getAutor().getUsername()}"))
                 {
                     $(".elimComent").show();
                     $(".editElim").show();
@@ -166,7 +165,7 @@
             <!-- Blog Post -->
 
             <!-- Title -->
-            <h1>${articulo.getTitulo()}</h1>
+            <#--<h1>${articulo.getTitulo()}</h1>-->
 
             <!-- Author -->
             <p class="lead">
@@ -188,9 +187,11 @@
 
             <hr>
 
-            <!-- Preview Image -->
-            <img class="img-responsive" src="http://www.caregivingclub.com/wp-content/uploads/2011/03/sunset-and-light-bulb-LG-900x300.jpg" alt="">
+            <#--<!-- Preview Image &ndash;&gt;-->
+            <#--<img class="img-responsive" src="http://www.caregivingclub.com/wp-content/uploads/2011/03/sunset-and-light-bulb-LG-900x300.jpg" alt="">-->
 
+            <!-- Post Content -->
+            <img src="${articulo.getFoto()}" height="500" width="500">
             <hr>
         <div class="container">
         <#if sesion??>
@@ -226,9 +227,9 @@
                 <ta class="like" style='margin-left: 15em; font-size: 15px;'><i class="fa fa-thumbs-o-up"></i>
                     Like <input class="qty1" name="qty1" readonly="readonly" type="text" value="${totalLA}" />
                 </ta>
-                <ta class="dislike" ><i class="fa fa-thumbs-o-down"></i>
-                    Dislike <input class="qty2"  name="qty2" readonly="readonly" type="text" value="${totalDA}" />
-                </ta>
+                <#--<ta class="dislike" ><i class="fa fa-thumbs-o-down"></i>-->
+                    <#--Dislike <input class="qty2"  name="qty2" readonly="readonly" type="text" value="${totalDA}" />-->
+                <#--</ta>-->
             </#if>
         </#if>
         </div>
@@ -236,8 +237,8 @@
 
         <hr>
 
-            <!-- Post Content -->
-            <p class="lead">${articulo.getCuerpo()}</p>
+            <#--<!-- Post Content &ndash;&gt;-->
+            <#--<img src="${articulo.getFoto()}" height="500" width="500">-->
           <!--  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, tenetur natus doloremque laborum quos iste ipsum rerum obcaecati impedit odit illo dolorum ab tempora nihil dicta earum fugiat. Temporibus, voluptatibus.</p>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, doloribus, dolorem iusto blanditiis unde eius illum consequuntur neque dicta incidunt ullam ea hic porro optio ratione repellat perspiciatis. Enim, iure!</p>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, nostrum, aliquid, animi, ut quas placeat totam sunt tempora commodi nihil ullam alias modi dicta saepe minima ab quo voluptatem obcaecati?</p>
@@ -272,10 +273,10 @@
                         <form action="/articulos" method="post">
                             <input type = "hidden" name = "editarArt" value = "true">
                             <input type = "hidden" name = "idArticulo" value = "${articulo.getId()}">
-                            <input type="text" name="titulo" value="${articulo.getTitulo()}">
-                            <textarea type="text-area" style="height: 150px;" class="form-control" row="4" name="area-articulo" >${articulo.getCuerpo()}</textarea>
+                            <#--<input type="text" name="titulo" value="${articulo.getTitulo()}">-->
+                            <#--<textarea type="text-area" style="height: 150px;" class="form-control" row="4" name="area-articulo" >${articulo.getCuerpo()}</textarea>-->
                             <br>
-                            <textarea type="tags-area" style="height: 50px;" class="form-control" row="4" name="area-etiqueta" ><#list etiquetas as etiqs>${etiqs.getEtiqueta()}, </#list></textarea>
+                            <#--<textarea type="tags-area" style="height: 50px;" class="form-control" row="4" name="area-etiqueta" ><#list etiquetas as etiqs>${etiqs.getEtiqueta()}, </#list></textarea>-->
                             <br>
                             <input type="submit" name="login" class="login loginmodal-submit" value="Aceptar">
                         </form>
