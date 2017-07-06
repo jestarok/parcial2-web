@@ -37,7 +37,7 @@ public class Main {
         init();
 
         //Administradores
-//        UsuarioQueries.getInstancia().crear(new Usuario("f", "Francis Cáceres", "1234"));
+//        UsuarioQueries.getInstancia().crear(new Usuario("j", "Jesus Henriquez", "1234"));
 
 
         get("/", (request, response) -> {
@@ -94,6 +94,14 @@ public class Main {
         post("/", (request, response) -> {
             Session sesion = request.session(true);
             Map<String, Object> attributes = new HashMap<>();
+            System.out.println(request.queryParams().size());
+            Gson gson = new Gson();
+
+            System.out.println(gson.toJson(request.queryParams()));
+            System.out.println(request.queryParams("titulo"));
+            System.out.println(request.queryParams("cuerpo-etiqueta"));
+            System.out.println(request.queryParams("cuerpo-articulo"));
+            System.out.println(request.queryParams("imagen").replace(' ','+'));
 
             String insertArt = request.queryParams("crearArt");
             String elimArt = request.queryParams("eliminarArt");

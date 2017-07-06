@@ -47,30 +47,6 @@ public class Articulo implements Serializable{
     }
 
 
-    public List<Comentario> getListaComentario() {
-        return listaComentario;
-    }
-
-    public void setListaComentario(List<Comentario> listaComentario) {
-        this.listaComentario = listaComentario;
-    }
-
-    public List<Etiqueta> getListaEtiqueta() {
-        return listaEtiqueta;
-    }
-
-    public void setListaEtiqueta(List<Etiqueta> listaEtiqueta) {
-        this.listaEtiqueta = listaEtiqueta;
-    }
-
-    public List<LikeA> getLikes() {
-        return likes;
-    }
-
-    public void setLikes(List<LikeA> likes) {
-        this.likes = likes;
-    }
-
     public void addLikeA(LikeA like) {
         this.likes.add(like);
         if (like.getArticulo() != this) {

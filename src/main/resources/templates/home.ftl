@@ -19,6 +19,7 @@
     <!-- Custom CSS -->
     <link href="css/blog-home.css" rel="stylesheet">
 
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -31,6 +32,7 @@
     <script src="js/jq.js"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
+
 
     <#--Codigo Hecho a mano-->
     <script type="text/javascript">
@@ -161,15 +163,53 @@
     <div class="modal-dialog">
         <div class="loginmodal-container">
             <h1>Creando Articulo</h1><br>
-            <form action="/" method="post">
-                <input type="text" name="titulo" placeholder="Titulo">
-                <input type = "hidden" name = "crearArt" value = "true">
-                <textarea type="text-area" style="height: 150px;" class="form-control" row="4" name="area-articulo" placeholder="Texto..."></textarea>
-                <br>
-                <textarea type="tags-area" style="height: 50px;" class="form-control" row="4" name="area-etiqueta" placeholder="Etiquetas,..."></textarea>
-                <br>
-                <input type="submit" name="crearArt" class="crearArt loginmodal-submit" value="Aceptar">
-            </form>
+
+            <input type="text" name="titulo" id="titulo" placeholder="Titulo">
+            <img id="blah" src="img/placeHolder.png" alt="your image" />
+            <input type='file' id="imgInp" />
+            <input type = "hidden" name = "dataImagen" value = "true">
+            <textarea type="text-area" style="height: 150px;" class="form-control" row="4" name="area-articulo" id="area-articulo" placeholder="Texto..."></textarea>
+            <br>
+            <textarea type="tags-area" style="height: 50px;" class="form-control" row="4" name="area-etiqueta" id="area-etiqueta" placeholder="Etiquetas,..."></textarea>
+            <br>
+            <input type="submit" name="crearArt" id="btn-crearArt" class="crearArt loginmodal-submit" value="Aceptar">
+
+            <script>
+
+                var image = document.getElementById("blah");
+                document.getElementById('imgInp').onchange = function handleImage(e) {
+                    var reader = new FileReader();
+                    reader.onload = function (event) { console.log('fdsf');
+                        var imgObj = new Image();
+                        imgObj.src = event.target.result;
+                        imgObj.onload = function () {
+                            image.src = imgObj.src;
+                        }
+                    }
+                    reader.readAsDataURL(e.target.files[0]);
+                }
+                $("#btn-crearArt").click(function () {
+
+                    var titulo = document.getElementById("titulo").value;
+
+                    alert(titulo);
+                    var area_articulo = document.getElementById("area-articulo").value;
+                    var area_etiqueta = document.getElementById("area-etiqueta").value;
+
+                    $.ajax({
+                        type:'POST',
+                        data: "titulo="+titulo+"&cuerpo-articulo="+area_articulo+"&cuerpo-etiqueta="+area_etiqueta+"&imagen="+image.src,
+                        url: "/",
+                        success:function (data) {
+                            console.log("succes");
+                            alert(titulo);
+                        },error:function(e){
+                            alert("fail "+e.responseText);
+                        }
+                    });
+                });
+
+            </script>
 
         </div>
     </div>

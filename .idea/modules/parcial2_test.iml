@@ -20,6 +20,7 @@
     <orderEntry type="library" name="Gradle: org.hibernate:hibernate-entitymanager:5.1.0.Final" level="project" />
     <orderEntry type="library" name="Gradle: com.j2html:j2html:1.0.0" level="project" />
     <orderEntry type="library" name="Gradle: com.sparkjava:spark-debug-tools:0.5" level="project" />
+    <orderEntry type="library" name="Gradle: org.projectlombok:lombok:1.16.8" level="project" />
     <orderEntry type="library" name="Gradle: junit:junit:4.11" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-server:9.3.6.v20151106" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-webapp:9.3.6.v20151106" level="project" />
