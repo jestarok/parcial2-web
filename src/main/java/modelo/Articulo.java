@@ -1,10 +1,13 @@
 package modelo;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+@Data
 @Entity
 @NamedQueries(
         {@NamedQuery( name =  "Articulo.findAllSorted", query = "SELECT a FROM Articulo a order by  a.fecha desc"),
@@ -13,10 +16,9 @@ public class Articulo implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(length = 1000)
-    private String titulo;
-    @Column(length = 8000)
-    private String cuerpo;
+    private String foto;
+//    @Column(length = 8000)
+    private String descripcion;
     @ManyToOne
     private Usuario autor;
     @OrderBy
@@ -32,9 +34,9 @@ public class Articulo implements Serializable{
 
     }
 
-    public Articulo(String titulo, String cuerpo, Usuario autor, List<Comentario> listaComentario, List<Etiqueta> listaEtiqueta, List<LikeA> likes) {
-        this.titulo = titulo;
-        this.cuerpo = cuerpo;
+    public Articulo(String foto, String descripcion, Usuario autor, List<Comentario> listaComentario, List<Etiqueta> listaEtiqueta, List<LikeA> likes) {
+        this.foto = foto;
+        this.descripcion = descripcion;
         this.autor = autor;
         fecha = new Date();
         java.sql.Date fechasql = new java.sql.Date(fecha.getTime());
@@ -44,45 +46,6 @@ public class Articulo implements Serializable{
         this.likes = likes;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public String getCuerpo() {
-        return cuerpo;
-    }
-
-    public void setCuerpo(String cuerpo) {
-        this.cuerpo = cuerpo;
-    }
-
-    public Usuario getAutor() {
-        return autor;
-    }
-
-    public void setAutor(Usuario autor) {
-        this.autor = autor;
-    }
-
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
 
     public List<Comentario> getListaComentario() {
         return listaComentario;

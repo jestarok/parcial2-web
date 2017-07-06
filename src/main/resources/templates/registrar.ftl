@@ -60,22 +60,31 @@
     <br>
     <div class="container">
         <div class="row">
-            <div class="col-md-offset-4 col-md-3">
-                <form method="post" action="/validacion">
-                <div class="form-login">
-                    <h4>Bienvenido!</h4>
-                    <input type="text" id="userName" name="user" class="form-control input-sm chat-input" placeholder="Usuario" />
-                    </br>
-                    <input type="password" id="userPassword" name = "pass" class="form-control input-sm chat-input" placeholder="Contraseña" />
-                    </br>
-                    <div class="wrapper">
-            <span class="group-btn">
-                <a id="registrar" href="/registro" type="button" class="btn btn-primary btn-md">Registrar</a>
-                <input id= "login" type="submit" class="btn btn-primary btn-md" value = "Entrar">
-            </span>
+            <div class="col-md-offset-3 col-md-5">
+                <form method="post" action="/registro">
+                    <div class="form-login">
+                        <h4>Registro</h4>
+                        <input type="text" id="userName" name="user" class="form-control input-sm chat-input" placeholder="Usuario" />
+                        </br>
+                        <input type="text" id="Name" name="nombre" class="form-control input-sm chat-input" placeholder="Nombre" />
+                        </br>
+                        <input type="password" id="userPassword" name = "pass" class="form-control input-sm chat-input" placeholder="Contraseña" />
+                        </br>
+                        <input type="text" id="Correo" name="correo" class="form-control input-sm chat-input" placeholder="Email" />
+                        </br>
+                        <input type="text" id="foto" name="foto" class="form-control input-sm chat-input" placeholder="Foto" />
+                        </br>
+                        <textarea type="text" id="desc" name="desc" class="form-control input-sm chat-input" placeholder="Descripción"></textarea>
+                        </br>
+                        <label>Privada</label>
+                        <input type="checkbox" id="privat" name="privat" />
+                        </br>
+                        <div class="wrapper">
+                            <span class="group-btn">
+                                <input id= "listo" type="submit" class="btn btn-primary btn-md" value = "Listo">
+                            </span>
+                        </div>
                     </div>
-
-                </div>
                 </form>
             </div>
         </div>

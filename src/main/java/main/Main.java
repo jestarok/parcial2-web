@@ -37,7 +37,7 @@ public class Main {
         init();
 
         //Administradores
-        //UsuarioQueries.getInstancia().crear(new Usuario("f", "Francis Cáceres", "1234", true));
+//        UsuarioQueries.getInstancia().crear(new Usuario("f", "Francis Cáceres", "1234"));
 
 
         get("/", (request, response) -> {
@@ -45,7 +45,7 @@ public class Main {
             Session session = request.session(true);
             Boolean usuario = session.attribute("sesion");
 
-            attributes.put("user",(session.attribute("currentUser")==null)?new Usuario("","","",false):((Usuario) session.attribute("currentUser")));
+            attributes.put("user",(session.attribute("currentUser")==null)?new Usuario("","",""):((Usuario) session.attribute("currentUser")));
 
             Boolean admin = session.attribute("admin");
 
@@ -143,7 +143,7 @@ public class Main {
 
             Session session = request.session(true);
             Boolean usuario = session.attribute("sesion");
-            attributes.put("user",(session.attribute("currentUser")==null)?new Usuario("","","",false):((Usuario) session.attribute("currentUser")));
+            attributes.put("user",(session.attribute("currentUser")==null)?new Usuario("","",""):((Usuario) session.attribute("currentUser")));
 
             int pagina = Integer.valueOf(request.params("pagina"));
 
@@ -205,7 +205,7 @@ public class Main {
             List<Articulo>articulos = ArticulosQueries.getInstancia().findLimitedSorted();
             List<String> arts = new ArrayList<>();
             for (Articulo a:articulos) {
-                String tmp = a.getAutor()+"/"+a.getTitulo()+"/"+a.getAutor().getUsername()+"/"+a.getCuerpo()+"/"+a.getFecha().toString();
+                String tmp = a.getAutor()+"/"+a.getFoto()+"/"+a.getAutor().getUsername()+"/"+a.getDescripcion()+"/"+a.getFecha().toString();
                 arts.add(tmp);
             }
             pa = 0;
@@ -230,7 +230,7 @@ public class Main {
 
             Session session = request.session(true);
             Boolean usuario = session.attribute("sesion");
-            attributes.put("user",(session.attribute("currentUser")==null)?new Usuario("","","",false):((Usuario) session.attribute("currentUser")));
+            attributes.put("user",(session.attribute("currentUser")==null)?new Usuario("","",""):((Usuario) session.attribute("currentUser")));
 
             int pagina = Integer.valueOf(request.params("pagina"));
 
@@ -286,7 +286,7 @@ public class Main {
 
             attributes.put("sesion",(sesion.attribute("sesion")==null)?"false":sesion.attribute("sesion").toString());
 
-            attributes.put("user",(sesion.attribute("currentUser")==null)?new Usuario("","","",false):((Usuario) sesion.attribute("currentUser")));
+            attributes.put("user",(sesion.attribute("currentUser")==null)?new Usuario("","",""):((Usuario) sesion.attribute("currentUser")));
 
             Long id = Long.valueOf(request.queryParams("id"));
 
@@ -443,6 +443,40 @@ public class Main {
             return new ModelAndView(attributes, "login.ftl");
         }, freeMarkerEngine);
 
+        get("/registro", (request, response) -> {
+            Map<String, Object> attributes = new HashMap<>();
+
+            return new ModelAndView(attributes, "registrar.ftl");
+        }, freeMarkerEngine);
+
+        post("/registro", (request, response) -> {
+            Map<String, Object> attributes = new HashMap<>();
+            String foto = request.queryParams("foto");
+            String user = request.queryParams("user");
+            String nombre = request.queryParams("nombre");
+            String pass = request.queryParams("pass");
+            String correo = request.queryParams("correo");
+            boolean privat = false;
+            try{
+                privat = request.queryParams("privat").equals("on")? true : false;
+            }catch (Exception e){
+                System.out.println("No es privado");
+            }
+            String desc = request.queryParams("desc");
+
+            if(UsuarioQueries.getInstancia().findUser(user) || UsuarioQueries.getInstancia().findMail(correo)){
+                halt(403,"Ya existe alguien con este usuario o correo");
+            }
+
+            Usuario usuario = new Usuario(user,foto,nombre,pass,correo,privat,desc);
+
+            UsuarioQueries.getInstancia().crear(usuario);
+
+            response.redirect("/login");
+
+            return new ModelAndView(attributes, "registrar.ftl");
+        }, freeMarkerEngine);
+
         post("/validacion", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
             Session session=request.session(true);
@@ -478,7 +512,7 @@ public class Main {
             if(request.queryParams("elim")!=null)
             {
                 String usernam = request.queryParams("elim");
-                UsuarioQueries.getInstancia().eliminar(new Usuario(usernam,"","",false));
+                UsuarioQueries.getInstancia().eliminar(new Usuario(usernam,"",""));
             }
             else
             {
@@ -486,9 +520,8 @@ public class Main {
                 String user = request.queryParams("user");
                 String nombre = request.queryParams("nombre");
                 String pass = request.queryParams("pass");
-                Boolean admin = (request.queryParams("admin") ==null)? false:true;
 
-                Usuario usuario = new Usuario(user,nombre,pass,admin);
+                Usuario usuario = new Usuario(user,nombre,pass);
                 UsuarioQueries.getInstancia().crear(usuario);
             }
 
@@ -547,7 +580,7 @@ public class Main {
 
             attributes.put("sesion",(sesion.attribute("sesion")==null)?"false":sesion.attribute("sesion").toString());
 
-            attributes.put("user",(sesion.attribute("currentUser")==null)?new Usuario("","","",false):((Usuario) sesion.attribute("currentUser")));
+            attributes.put("user",(sesion.attribute("currentUser")==null)?new Usuario("","",""):((Usuario) sesion.attribute("currentUser")));
 
 
             return new ModelAndView(attributes, "chat.ftl");

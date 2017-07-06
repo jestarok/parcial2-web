@@ -1,18 +1,26 @@
 package modelo;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-
+@Data
 @Entity
 @NamedQueries({@NamedQuery(name = "Usuario.findAllByUsername", query = "SELECT a FROM Usuario a WHERE a.username like :username")})
 public class Usuario implements Serializable{
     @Id
+    @Column(unique = true)
     private String username;
+    private String foto;
     private String nombre;
     private String password;
-    private boolean administrador;
+    @Column(unique = true)
+    private String email;
+    private boolean privacidad;
     private boolean autor;
+    private String description;
+
     @OneToMany ( mappedBy = "autor", cascade = CascadeType.REMOVE)
     private List<Articulo> articulos;
     @OneToMany ( mappedBy = "autor", cascade = CascadeType.REMOVE)
@@ -26,53 +34,25 @@ public class Usuario implements Serializable{
 
     }
 
-    public Usuario(String username, String nombre, String password, boolean administrador) {
+    public Usuario(String username, String foto, String nombre, String password, String email, boolean privacidad, String description) {
+        this.username = username;
+        this.foto = foto;
+        this.nombre = nombre;
+        this.password = password;
+        this.email = email;
+        this.privacidad = privacidad;
+        this.autor = true;
+        this.description = description;
+    }
+
+    public Usuario(String username, String nombre, String password) {
         this.username = username;
         this.nombre = nombre;
         this.password = password;
-        this.administrador = administrador;
         this.autor = true;
     }
 
-    public String getUsername() {
-        return username;
-    }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public boolean isAdministrador() {
-        return administrador;
-    }
-
-    public boolean isAutor() {
-        return autor;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setAdministrador(boolean administrador) {
-        this.administrador = administrador;
-    }
-
-    public void setAutor(boolean autor) {
-        this.autor = autor;
-    }
 
     public List<LikeA> getLikesA() {
         return likesA;

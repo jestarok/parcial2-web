@@ -45,9 +45,9 @@
                 $('.logout').show();
                 $('.agregarArt').show();
                 $('#chatt').show();
-                if("${user.isAdministrador()?c}" === "true") {
-                    $('#administrar').show();
-                }
+                <#--if("${user.isAdministrador()?c}" === "true") {-->
+                    <#--$('#administrar').show();-->
+                <#--}-->
             }
             else {
                 $('.login').show();
