@@ -4,28 +4,38 @@ package main;
  */
 
 import com.google.gson.Gson;
+import com.sun.media.jfxmedia.track.Track;
 import database.*;
 import freemarker.template.Configuration;
 import modelo.*;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import spark.ModelAndView;
 import spark.Session;
+import spark.embeddedserver.jetty.JettyHandler;
 import spark.template.freemarker.FreeMarkerEngine;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.MultipartConfigElement;
+import java.io.File;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.util.*;
 
 import static spark.Spark.*;
 import static spark.debug.DebugScreen.enableDebugScreen;
 
-//TODO: Teminar de arreglar el main
+    //TODO: Teminar de arreglar el main
 public class Main {
     public static int pa = 0;
     public static List<Chat> usuariosConectados = new ArrayList<>();
 
     public static void main(String [] args)
     {
+        File uploadDir = new File("upload");
+        uploadDir.mkdir();
         staticFileLocation("recursos");
         enableDebugScreen();
 
@@ -70,8 +80,9 @@ public class Main {
             }
 
             int pagina = 1;
-//            paginacion(ArticulosQueries.getInstancia().findAllSorted(),pagina)
+            paginacion(ArticulosQueries.getInstancia().findAllSorted(),pagina);
             List<Articulo> ar = ArticulosQueries.getInstancia().findLimitedSorted();
+//ar.get(0).getDescripcion()
             attributes.put("articulos",ar);
 
 
@@ -92,16 +103,24 @@ public class Main {
         }, freeMarkerEngine);
 
         post("/", (request, response) -> {
+            Gson gson = new Gson();
+            System.out.println(gson.toJson(request.queryParams()));
+            request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
+            String file64 = "";
+            try (InputStream is = request.raw().getPart("imgInp").getInputStream()) {
+                byte encoded[] = new byte[(int) request.raw().getPart("imgInp").getSize()];
+                is.read(encoded);
+                file64 = "data:image/png;base64,"+Base64.getEncoder().encodeToString(encoded);
+
+            }
+            System.out.println("");
             Session sesion = request.session(true);
             Map<String, Object> attributes = new HashMap<>();
             System.out.println(request.queryParams().size());
-            Gson gson = new Gson();
 
-            System.out.println(gson.toJson(request.queryParams()));
             System.out.println(request.queryParams("titulo"));
-            System.out.println(request.queryParams("cuerpo-etiqueta"));
-            System.out.println(request.queryParams("cuerpo-articulo"));
-            System.out.println(request.queryParams("imagen").replace(' ','+'));
+            System.out.println(request.queryParams("area-articulo"));
+            System.out.println(request.queryParams("area-etiqueta"));
 
             String insertArt = request.queryParams("crearArt");
             String elimArt = request.queryParams("eliminarArt");
@@ -128,7 +147,7 @@ public class Main {
                 }
 
 
-                Articulo art = new Articulo( titulo, texto, sesion.attribute("currentUser"), new ArrayList<Comentario>(), etiq,new ArrayList<LikeA>());
+                Articulo art = new Articulo( file64, texto, sesion.attribute("currentUser"), new ArrayList<Comentario>(), etiq,new ArrayList<LikeA>());
                 ArticulosQueries.getInstancia().crear(art);
                 for (String eti : etiquetas.split(",")) {
                     EtiquetaQueries.getInstancia().crear(new Etiqueta(eti, (Articulo) ArticulosQueries.getInstancia().find(art.getId())));

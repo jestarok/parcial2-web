@@ -160,51 +160,90 @@
     <div class="modal-dialog">
         <div class="loginmodal-container">
             <h1>Creando Articulo</h1><br>
-
+            <canvas id="myCanvas" width="500" height="500"></canvas>
+            <form method="post" enctype="multipart/form-data" action="/">
             <input type="text" name="titulo" id="titulo" placeholder="Titulo">
-            <img id="blah" src="img/placeHolder.png" alt="your image" />
-            <input type='file' id="imgInp" />
-            <input type = "hidden" name = "dataImagen" value = "true">
+            <#--<img id="blah" src="img/placeHolder.png" alt="your image" />-->
+            <input type='file' id="imgInp" name="imgInp"/>
+            <#--<input type = "hidden" name = "dataImagen" value = "true">-->
             <textarea type="text-area" style="height: 150px;" class="form-control" row="4" name="area-articulo" id="area-articulo" placeholder="Texto..."></textarea>
             <br>
             <textarea type="tags-area" style="height: 50px;" class="form-control" row="4" name="area-etiqueta" id="area-etiqueta" placeholder="Etiquetas,..."></textarea>
             <br>
             <input type="submit" name="crearArt" id="btn-crearArt" class="crearArt loginmodal-submit" value="Aceptar">
-
+            </form>
             <script>
 
-                var image = document.getElementById("blah");
+                var image = new Image();
+                var canvas = document.getElementById("myCanvas");
+                var ctx = canvas.getContext("2d");
+                ctx.fillStyle = "black";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
                 document.getElementById('imgInp').onchange = function handleImage(e) {
                     var reader = new FileReader();
                     reader.onload = function (event) { console.log('fdsf');
+                        var canvas = document.getElementById("myCanvas");
+                        var canvasContext = canvas.getContext("2d");
                         var imgObj = new Image();
                         imgObj.src = event.target.result;
+                        image.src = imgObj.src;
+                        console.log(imgObj.width+" "+imgObj.height);
                         imgObj.onload = function () {
-                            image.src = imgObj.src;
+//                            var x = imgObj.width;
+//                            var y = imgObj.height ;
+//                            if(x > y) {
+//                                while (x != 500) {
+//                                    console.log(x);
+//                                    if (x > 500) {
+//                                        x--;
+//                                        y--;
+//                                    } else if (x < 500) {
+//                                        x++;
+//                                        y++;
+//                                    }
+////                                    console.log("x= " + x + " y=" + y);
+//                                }
+//                            }else if(y > x){
+//                                while (y != 500)
+//                                {
+//                                    console.log(x);
+//                                    if (y > 500) {
+//                                        x--;
+//                                        y--;
+//                                    } else if (y < 500) {
+//                                        x++;
+//                                        y++;
+//                                    }
+////                                    console.log("x= " + x + " y=" + y);
+//                                }
+//
+//                            }
+                            canvasContext.drawImage(imgObj, 0, 0,canvas.width,canvas.height);
                         }
                     }
                     reader.readAsDataURL(e.target.files[0]);
                 }
-                $("#btn-crearArt").click(function () {
-
-                    var titulo = document.getElementById("titulo").value;
-
-                    alert(titulo);
-                    var area_articulo = document.getElementById("area-articulo").value;
-                    var area_etiqueta = document.getElementById("area-etiqueta").value;
-
-                    $.ajax({
-                        type:'POST',
-                        data: "titulo="+titulo+"&cuerpo-articulo="+area_articulo+"&cuerpo-etiqueta="+area_etiqueta+"&imagen="+image.src,
-                        url: "/",
-                        success:function (data) {
-                            console.log("succes");
-                            alert(titulo);
-                        },error:function(e){
-                            alert("fail "+e.responseText);
-                        }
-                    });
-                });
+//                $("#btn-crearArt").click(function () {
+//
+//                    var titulo = document.getElementById("titulo").value;
+//
+//                    alert(titulo);
+//                    var area_articulo = document.getElementById("area-articulo").value;
+//                    var area_etiqueta = document.getElementById("area-etiqueta").value;
+//
+//                    $.ajax({
+//                        type:'POST',
+//                        enctype: 'multipart/form-data',
+//                        data: "titulo="+titulo+"&cuerpo-articulo="+area_articulo+"&cuerpo-etiqueta="+area_etiqueta+"&imagen="+canvas.toDataURL(),
+//                        url: "/",
+//                        success:function (data) {
+//                            alert("succes");
+//                        },error:function(e){
+//                            alert("fail "+e.responseText);
+//                        }
+//                    });
+//                });
 
             </script>
 
@@ -248,14 +287,15 @@
                 <!-- First Blog Post -->
               <#list articulos as articulo>
                     <h2>
-                        <#--<a href="/articulos?id=${articulo.getId()}">${articulo.getTitulo()}</a>-->
+                        <a href="/articulos?id=${articulo.getId()}">${articulo.getId()}</a>
                     </h2>
                     <p class="lead">
                         by <i>${articulo.getAutor().getUsername()}</i>
                     </p>
+                    <img src=${articulo.getFoto()}>
                     <p><span class="glyphicon glyphicon-time"></span> Publicado en ${articulo.getFecha()}</p>
                     <hr>
-                    <#--<p class="parrafoEsp">${articulo.getCuerpo()}</p>-->
+                    <p class="parrafoEsp">${articulo.getDescripcion()}</p>
                     <a class="btn btn-primary" href="/articulos?id=${articulo.getId()}">Leer más <span class="glyphicon glyphicon-chevron-right"></span></a>
                     <hr>
                 </#list>
