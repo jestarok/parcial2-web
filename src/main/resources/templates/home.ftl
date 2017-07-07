@@ -292,7 +292,7 @@
                     <p class="lead">
                         by <i>${articulo.getAutor().getUsername()}</i>
                     </p>
-                    <img src=${articulo.getFoto()}>
+                    <img src="  ${articulo.getFoto()}" height="500" width="500">
                     <p><span class="glyphicon glyphicon-time"></span> Publicado en ${articulo.getFecha()}</p>
                     <hr>
                     <p class="parrafoEsp">${articulo.getDescripcion()}</p>
