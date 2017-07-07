@@ -368,8 +368,14 @@ public class Main {
         post("/articulos", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
             Session sesion = request.session(true);
-
-
+            request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
+//            String file64 = "";
+//            try (InputStream is = request.raw().getPart("foto").getInputStream()) {
+//                byte encoded[] = new byte[(int) request.raw().getPart("foto").getSize()];
+//                is.read(encoded);
+//                file64 = "data:image/png;base64,"+Base64.getEncoder().encodeToString(encoded);
+//
+//            }
             String editarArt = (request.queryParams("editarArt")==null)?"null": "nonull";
             String elimC = request.queryParams("eliminarComentario");
             String comen = request.queryParams("comentario");
@@ -379,7 +385,6 @@ public class Main {
                 Articulo editArt = ArticulosQueries.getInstancia().find(id);
                 List<Etiqueta> rep = editArt.getListaEtiqueta();
                 limpiaEtiq(rep);
-                String titulo = request.queryParams("titulo");
                 String texto = request.queryParams("area-articulo");
                 String etiquetas = request.queryParams("area-etiqueta");
                 ArrayList<Etiqueta> etiq = new ArrayList<>();
@@ -390,8 +395,12 @@ public class Main {
                     etiq.add(new Etiqueta(eti));
                     EtiquetaQueries.getInstancia().crear(new Etiqueta(eti, ArticulosQueries.getInstancia().find(id)));
                 }
-                Articulo art = new Articulo( titulo, texto, sesion.attribute("currentUser"), new ArrayList<>(), etiq, new ArrayList<>());
-                art.setId(id);
+                Articulo art =  ArticulosQueries.getInstancia().buscarArticulo(id);
+                art.setDescripcion(texto);
+                art.setListaEtiqueta(etiq);
+                art.setAutor(sesion.attribute("currentUser"));
+//                            Articulo tmp = new Articulo( "1", ""+texto, sesion.attribute("currentUser"), new ArrayList<>(), etiq, new ArrayList<>());
+
                 ArticulosQueries.getInstancia().editar(art);
             }
             else{
@@ -478,13 +487,22 @@ public class Main {
 
         get("/perfil", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
-
+            Session session =  request.session(true);
+            Usuario actual = session.attribute("currentUser");
+            attributes.put("user",actual);
             return new ModelAndView(attributes, "perfil.ftl");
         }, freeMarkerEngine);
 
         post("/registro", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
-            String foto = request.queryParams("foto");
+            request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
+            String foto = "";
+            try (InputStream is = request.raw().getPart("imgInp").getInputStream()) {
+                byte encoded[] = new byte[(int) request.raw().getPart("imgInp").getSize()];
+                is.read(encoded);
+                foto = "data:image/png;base64,"+Base64.getEncoder().encodeToString(encoded);
+
+            }
             String user = request.queryParams("user");
             String nombre = request.queryParams("nombre");
             String pass = request.queryParams("pass");

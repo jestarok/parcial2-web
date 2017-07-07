@@ -41,6 +41,14 @@ public class ArticulosQueries extends Manejador<Articulo> {
         return lista;
     }
 
+    public Articulo buscarArticulo(Long artId){
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT a FROM Articulo a  WHERE a.id = :artId order by  a.fecha desc")
+                .setParameter("artId",artId);
+        List<Articulo> lista = query.getResultList();
+        return lista.get(0);
+    }
+
     public List<Articulo> findAllByTagsSorted(String tag){
         List<Articulo> listaA = new ArrayList<>();
         List<Articulo> bubble = ArticulosQueries.getInstancia().findAll();

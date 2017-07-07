@@ -192,6 +192,8 @@
 
             <!-- Post Content -->
             <img src="${articulo.getFoto()}" height="500" width="500">
+
+            <p style="height: 150px;" class="form-control" row="4" name="area-articulo" >${articulo.getDescripcion()}</p>
             <hr>
         <div class="container">
         <#if sesion??>
@@ -270,13 +272,15 @@
                 <div class="modal-dialog">
                     <div class="loginmodal-container">
                         <h1>Editando Articulo</h1><br>
-                        <form action="/articulos" method="post">
+                        <form action="/articulos" method="post" enctype="multipart/form-data">
+                            <img src="${articulo.getFoto()}" height="500" width="500" class="img-responsive">
                             <input type = "hidden" name = "editarArt" value = "true">
+                            <input type = "hidden" name = "foto" value ="${articulo.getFoto()}">
                             <input type = "hidden" name = "idArticulo" value = "${articulo.getId()}">
                             <#--<input type="text" name="titulo" value="${articulo.getTitulo()}">-->
-                            <#--<textarea type="text-area" style="height: 150px;" class="form-control" row="4" name="area-articulo" >${articulo.getCuerpo()}</textarea>-->
+                            <textarea type="text-area" style="height: 150px;" class="form-control" row="4" name="area-articulo" >${articulo.getDescripcion()}</textarea>
                             <br>
-                            <#--<textarea type="tags-area" style="height: 50px;" class="form-control" row="4" name="area-etiqueta" ><#list etiquetas as etiqs>${etiqs.getEtiqueta()}, </#list></textarea>-->
+                            <textarea type="tags-area" style="height: 50px;" class="form-control" row="4" name="area-etiqueta" ><#list etiquetas as etiqs>${etiqs.getEtiqueta()}, </#list></textarea>
                             <br>
                             <input type="submit" name="login" class="login loginmodal-submit" value="Aceptar">
                         </form>

@@ -162,7 +162,6 @@
             <h1>Creando Articulo</h1><br>
             <canvas id="myCanvas" width="500" height="500"></canvas>
             <form method="post" enctype="multipart/form-data" action="/">
-            <input type="text" name="titulo" id="titulo" placeholder="Titulo">
             <#--<img id="blah" src="img/placeHolder.png" alt="your image" />-->
             <input type='file' id="imgInp" name="imgInp"/>
             <#--<input type = "hidden" name = "dataImagen" value = "true">-->
@@ -292,7 +291,7 @@
                     <p class="lead">
                         by <i>${articulo.getAutor().getUsername()}</i>
                     </p>
-                    <img src="  ${articulo.getFoto()}" height="500" width="500">
+                    <img src="${articulo.getFoto()}" height="500" width="500" class="img-responsive">
                     <p><span class="glyphicon glyphicon-time"></span> Publicado en ${articulo.getFecha()}</p>
                     <hr>
                     <p class="parrafoEsp">${articulo.getDescripcion()}</p>

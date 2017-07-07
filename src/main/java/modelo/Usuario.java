@@ -14,6 +14,7 @@ public class Usuario implements Serializable{
     @Id
     @Column(unique = true)
     private String username;
+    @Column(columnDefinition = "TEXT")
     private String foto;
     private String nombre;
     private String password;

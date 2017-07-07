@@ -167,8 +167,12 @@
             <div class="row">
                 <div class="col-md-4">
                 </div>
-                <div class="col-md-4">
-                    <img src="img/placeHolder.png" height="250" width="250">
+                <div class="col-md-4 img-responsive">
+                    <#if user??>
+                        <img src="${user.getFoto()}" height="250" width="250">
+                    <#else>
+                        <img src="img/placeHolder.png" height="250" width="250">
+                    </#if>
                 </div>
             </div>
 
@@ -177,8 +181,16 @@
                 </div>
                 <div class="col-md-4">
                     <p></p>
-                    <p><strong>Nombre del Tiguere</strong></p>
-                    <p>Privado</p>
+                <#if user??>
+                    <p><strong>"${user.getNombre()}"</strong></p>
+                    <#if user.isPrivacidad()>
+                        <p>Publicaciones: Privadas</p>
+                    <#else>
+                        <p>Publicaciones: Publicas</p>
+                    </#if>
+                <#else>
+                    <p><strong>Nombre</strong></p>
+                </#if>
                 </div>
                 <div class="col-md-4">
                 </div>
@@ -188,7 +200,11 @@
                 <div class="col-md-3">
                 </div>
                 <div class="col-md-5">
-                    <p>Para pa pa paaa me encanta. dxvsdkhvcashdfagwefb ahvcdshglagsfjbe jbfa jwbef jabfjbqwejfbasbdvasbfjbajsfgjaebr fb hikak ahieks jahhdien jaahsu nbahsj</p>
+                    <#if user??>
+                        <p>"${user.getDescription()}"</p>
+                    <#else>
+                        <p>Bio</p>
+                    </#if>
                 </div>
                 <div class="col-md-4">
                 </div>
